@@ -5,6 +5,10 @@ import Register from "../pages/login-register/Register";
 import Login from "../pages/login-register/Login";
 
 import FileUpload from './../pages/login-register/multer';
+import EditorList from "../pages/manageUser/EditorList";
+import Home from "../pages/home/Home";
+import AllSweep from "../pages/allPost/AllSweep";
+
 
 
 
@@ -16,19 +20,23 @@ const router = createBrowserRouter([
     children:[
       {
         index:true,
-        element:<h2>im defult</h2>
+        element:<Home/>
       },
       {
         path:'/add-post',
         element:<h2>im 2nd</h2>
       },
       {
-        path:'/control',
-        element:<h2>im 3nd</h2>
+        path:'/All-Sweep',
+        element:<AllSweep/>
       },
       {
         path:'/multer',
         element:<FileUpload/>
+      },
+      {
+        path:'/Editors',
+        element:<EditorList/>
       },
     ]
   

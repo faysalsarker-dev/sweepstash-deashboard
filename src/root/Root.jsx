@@ -121,6 +121,21 @@ const Root = () => {
                 </ListItemIcon>
                 <ListItemText primary="Control" />
             </ListItem>
+            <ListItem
+                button
+                component={NavLink}
+                to="/Editors"
+                className={({ isActive }) =>
+                    isActive
+                        ? 'bg-gray-500 text-white shadow-[0px_0px_15px_3px_rgba(98,0,238,0.7)] font-bold rounded-lg transition duration-300'
+                        : 'text-gray-700 hover:bg-gray-500 hover:text-white hover:shadow-lg rounded-lg transition duration-300'
+                }
+            >
+                <ListItemIcon className="text-inherit">
+                    <FaCogs />
+                </ListItemIcon>
+                <ListItemText primary="Editors" />
+            </ListItem>
         </List>
     );
 
@@ -192,7 +207,7 @@ const Root = () => {
                         className="p-4"
                     >
                         <div className="bg-white h-full shadow-md p-6 rounded-md">
-                            <h1 className="text-2xl font-semibold text-gray-800">Main Content Area</h1>
+                           
                             <Outlet />
                         </div>
                     </Grid>

@@ -30,15 +30,15 @@ const Register = () => {
       formData.append('password', data.password);  
       formData.append('role', 'editor');
   
-      const { data: userData } = await axiosSecure.post('/user/register', formData, {
+      const { data: userResponse } = await axiosSecure.post('/user/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
   
-      if (userData) {
-        setUser(userData);  
-        localStorage.setItem('user', JSON.stringify(userData));  
+      if (userResponse) {
+        setUser(userResponse);  
+        localStorage.setItem('user', JSON.stringify(userResponse));  
         toast.success("Registration successful!");
       } else {
         throw new Error('Invalid response structure');
@@ -188,3 +188,4 @@ const Register = () => {
 };
 
 export default Register;
+
