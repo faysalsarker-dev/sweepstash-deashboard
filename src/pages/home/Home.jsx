@@ -1,8 +1,9 @@
-import React from 'react';
+
 import { Box, Grid, Typography } from "@mui/material";
 import ShowCard from "../../component/ShowCard";
 import LineCharts from "../../component/LineChart";
 import PieChartComponent from "../../component/SecondChart";
+import HyperText from './../../component/HyperText';
 
 const Home = () => {
     const totalContent = 123;
@@ -19,7 +20,7 @@ const Home = () => {
                     color: 'primary.main',
                 }}
             >
-                OVERVIEW
+                <HyperText text={'OVERVIEW'} />
             </Typography>
 
             <Grid container spacing={2} sx={{ marginBottom: 4 }}>

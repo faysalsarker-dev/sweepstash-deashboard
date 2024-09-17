@@ -1,40 +1,54 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; 
 import { useForm } from 'react-hook-form';
 import {
-  TextField, Button, IconButton, InputAdornment, Box, Typography, Container, 
+  TextField, Button, IconButton, InputAdornment, Box, Typography, Container
 } from '@mui/material';
-import { Visibility, VisibilityOff, Google } from '@mui/icons-material';
-import useAuth from '../../hook/useAuth';
-import toast from 'react-hot-toast';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+import useAuth from '../../hook/useAuth';
+import useAxios from './../../hook/useAxios';
+
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors } ,reset} = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const { signIn,  googleLogin ,user,loading} = useAuth();
+  const { user, loading, setLoading, setUser } = useAuth();
   const navigate = useNavigate();
-    const location = useLocation()
+  const location = useLocation();
+  const axiosSecure = useAxios();
+
   const onSubmit = async (data) => {
+    const { email, password } = data;
+    setLoading(true);
+    
     try {
-       
-        signIn(data.email,data.password)
-        .then(() => {
-            toast.success("Login successful");
-            navigate('/');
-            reset(); 
-            console.log('login');
-            
-        });
+      const response = await axiosSecure.post('/user/login', { email, password });
+      const { user } = response.data;
+
+      if (user) {
+        setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        toast.success('Login successful!');
+        reset(); // reset form after successful login
+        navigate(location.state ? location.state : '/');
+      }
+
     } catch (error) {
-        console.error('Error during registration:', error);
-        toast.error("Registration failed. Please try again later.");
+      console.error("Login error:", error);
+      toast.error('Invalid email or password');
+    } finally {
+      setLoading(false);
     }
-};
-useEffect(() => {
-  if (user) {
+  };
+
+  useEffect(() => {
+    if (user) {
       navigate(location.state ? location.state : '/');
-  }
-}, [navigate,user ,location.state]);
+    }
+  }, [navigate, user, location.state]);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -49,7 +63,6 @@ useEffect(() => {
           alignItems: 'center',
         }}
       >
-  
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -84,11 +97,8 @@ useEffect(() => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {showPassword ?<Visibility />  : <VisibilityOff />}
+                  <IconButton onClick={handleClickShowPassword} edge="end">
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -101,21 +111,10 @@ useEffect(() => {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={loading} // disable button during loading
             sx={{ mt: 3, mb: 2 }}
           >
-            Login
-          </Button>
-
-          {/* Continue with Google */}
-          <Button
-          loading={loading}
-            fullWidth
-            variant="outlined"
-            startIcon={<Google />}
-            onClick={googleLogin}
-            sx={{ mt: 1 }}
-          >
-            Continue with Google
+            {loading ? 'Logging in...' : 'Login'}
           </Button>
         </form>
       </Box>

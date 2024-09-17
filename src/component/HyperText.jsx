@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import  { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; // Characters to cycle through
 
-const HyperText = ({ text, duration = 0.05, color = "#6200EE" }) => {
+const HyperText = ({ text , duration = 0.05, color = "#6200EE",fontSize = "clamp(1rem, 5vw, 3rem)" }) => {
   const [displayText, setDisplayText] = useState(text.split("").map(() => ""));
   const [finalText] = useState(text.split("")); // No need to set finalText again.
 
@@ -39,7 +40,17 @@ const HyperText = ({ text, duration = 0.05, color = "#6200EE" }) => {
   }, [finalText, duration]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", fontSize: "2rem", fontWeight: "bold", color }}>
+    <div
+      style={{
+        display: "flex",
+        fontSize: fontSize, // Responsive font size
+        fontWeight: "bold",
+        color,
+        flexWrap: "wrap", // Allows wrapping on smaller screens
+      
+        // Aligns text in center for mobile
+      }}
+    >
       {displayText.map((letter, index) => (
         <motion.span
           key={index}

@@ -19,21 +19,6 @@ const axiosSecure = useAxios()
   }, []);
 
   // Login function
-  const login = async (email, password) => {
-    setLoading(true);
-    try {
-      const response = await axiosSecure.post('/login', { email, password });
-      const { data } = response;
-      if (data.user) {
-        setUser(data.user);
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Login error:", error);
-      setLoading(false);
-    }
-  };
 
 
 
@@ -41,7 +26,7 @@ const axiosSecure = useAxios()
   const logout = async () => {
     setLoading(true);
     try {
-      await axios.post('/logout');
+      await axiosSecure.post('/logout');
       setUser(null);
       localStorage.removeItem('user');
       setLoading(false);
@@ -54,8 +39,8 @@ const axiosSecure = useAxios()
   const contextData = {
     user,
     loading,
-    login,
    setUser,
+   setLoading,
     logout,
   };
 

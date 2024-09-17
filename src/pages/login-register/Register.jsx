@@ -29,6 +29,8 @@ const Register = () => {
       formData.append('email', data.email);
       formData.append('password', data.password);  
       formData.append('role', 'editor');
+
+
   
       const { data: userResponse } = await axiosSecure.post('/user/register', formData, {
         headers: {
@@ -38,6 +40,7 @@ const Register = () => {
   
       if (userResponse) {
         setUser(userResponse);  
+        
         localStorage.setItem('user', JSON.stringify(userResponse));  
         toast.success("Registration successful!");
       } else {

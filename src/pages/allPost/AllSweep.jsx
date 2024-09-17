@@ -1,4 +1,23 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Box, Chip, Button, InputBase, IconButton, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
+  Box,
+  Chip,
+  Button,
+  InputBase,
+  IconButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  CircularProgress
+} from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
@@ -48,7 +67,7 @@ export default function AllSweep() {
   const [sortByStatus, setSortByStatus] = useState("All");
   const limit = 5;
 
-
+  // Mock data for demonstration
   const mockPosts = [
     {
       _id: '1',
@@ -86,26 +105,27 @@ export default function AllSweep() {
       publishedAt: '2023-09-08T13:45:00Z',
     },
   ];
-  
+
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['posts', page, search, sort],
+    queryKey: ['posts', page, search, sort, sortByStatus],
     queryFn: async () => {
       const response = await axiosSecure.get(
-        `/dashboard/posts?page=${page}&search=${search}&limit=${limit}&sort=${sort}`
+        `/dashboard/posts?page=${page}&search=${search}&limit=${limit}&sort=${sort}&status=${sortByStatus}`
       );
       return response.data;
     },
     keepPreviousData: true,
   });
 
-  const handlePageChange = ( value) => {
+  const handlePageChange = (event, value) => {
     setPage(value);
     refetch();
   };
 
   const handleSearchChange = (e) => {
-    e.prevalDefult()
+    e.preventDefault();
     setSearch(valsearch);
+    refetch();
   };
 
   const handleSortChange = (event) => {
@@ -113,19 +133,24 @@ export default function AllSweep() {
     refetch();
   };
 
-//   if (isLoading) {
-//     return (
-//       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-//         <CircularProgress />
-//       </Box>
-//     );
-//   }
+  const handleStatusSortChange = (event) => {
+    setSortByStatus(event.target.value);
+    refetch();
+  };
 
-//   if (isError) {
-//     return <div>Error fetching data.</div>;
-//   }
+  // if (isLoading) {
+  //   return (
+  //     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
+  //       <CircularProgress />
+  //     </Box>
+  //   );
+  // }
 
-  const { data: rows, totalPages } = data || {};
+  // if (isError) {
+  //   return <div>Error fetching data.</div>;
+  // }
+
+  const { data: rows, totalPages } = data || { data: mockPosts, totalPages: 4 }; // Mock fallback
 
   return (
     <>
@@ -148,33 +173,35 @@ export default function AllSweep() {
         <SortBox variant="standard">
           <InputLabel id="sort-label">
             <SortIcon sx={{ mr: 1 }} />
-            Sort By Status
+            Sort By Date
           </InputLabel>
           <Select
             labelId="sort-label"
             id="sort-select"
             value={sort}
             onChange={handleSortChange}
-            label="Sort By"
+            label="Sort By Date"
           >
             <MenuItem value="latest">Latest First</MenuItem>
             <MenuItem value="oldest">Oldest First</MenuItem>
           </Select>
         </SortBox>
+
         <SortBox variant="standard">
-          <InputLabel id="sort-label">
+          <InputLabel id="sort-status-label">
             <SortIcon sx={{ mr: 1 }} />
-            Sort By
+            Sort By Status
           </InputLabel>
           <Select
-            labelId="sort-label"
-            id="sort-select"
-            value={setSortByStatus}
-            onChange={handleSortChange}
-            label="Sort By"
+            labelId="sort-status-label"
+            id="sort-status-select"
+            value={sortByStatus}
+            onChange={handleStatusSortChange}
+            label="Sort By Status"
           >
-            <MenuItem value="latest">Latest First</MenuItem>
-            <MenuItem value="oldest">Oldest First</MenuItem>
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="published">Published</MenuItem>
+            <MenuItem value="draft">Draft</MenuItem>
           </Select>
         </SortBox>
       </Box>
@@ -184,6 +211,7 @@ export default function AllSweep() {
           <TableHead>
             <TableRow>
               <TableCell>Title</TableCell>
+              <TableCell align="left">Images</TableCell>
               <TableCell align="left">Author</TableCell>
               <TableCell align="left">Status</TableCell>
               <TableCell align="left">Published</TableCell>
@@ -191,11 +219,14 @@ export default function AllSweep() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockPosts?.length > 0 ? (
-              mockPosts.map((row) => (
+            {rows?.length > 0 ? (
+              rows.map((row) => (
                 <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell component="th" scope="row">
                     {row.title}
+                  </TableCell>
+                  <TableCell align="left">
+                    <img src="" className="w-full rounded-lg" alt="" />
                   </TableCell>
                   <TableCell align="left">{row.author}</TableCell>
                   <TableCell align="left">
@@ -209,7 +240,7 @@ export default function AllSweep() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} align="center">
+                <TableCell colSpan={6} align="center">
                   No data found.
                 </TableCell>
               </TableRow>
@@ -233,6 +264,3 @@ export default function AllSweep() {
     </>
   );
 }
-
-
- 

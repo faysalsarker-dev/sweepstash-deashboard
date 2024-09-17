@@ -8,6 +8,8 @@ import FileUpload from './../pages/login-register/multer';
 import EditorList from "../pages/manageUser/EditorList";
 import Home from "../pages/home/Home";
 import AllSweep from "../pages/allPost/AllSweep";
+import Profile from "../pages/profile/Profile";
+import OTPPage from "../pages/otp";
 
 
 
@@ -27,7 +29,7 @@ const router = createBrowserRouter([
         element:<h2>im 2nd</h2>
       },
       {
-        path:'/All-Sweep',
+        path:'/posts',
         element:<AllSweep/>
       },
       {
@@ -35,7 +37,15 @@ const router = createBrowserRouter([
         element:<FileUpload/>
       },
       {
-        path:'/Editors',
+        path:'/otp',
+        element:<OTPPage/>
+      },
+      {
+        path:'/profile',
+        element:<Profile/>
+      },
+      {
+        path:'/editor-manage',
         element:<EditorList/>
       },
     ]
