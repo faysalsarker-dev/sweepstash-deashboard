@@ -25,11 +25,13 @@ const axiosSecure = useAxios()
   // Logout function
   const logout = async () => {
     setLoading(true);
+    
     try {
-      await axiosSecure.post('/logout');
+      await axiosSecure.post('user/logout');
       setUser(null);
       localStorage.removeItem('user');
       setLoading(false);
+      window.location.reload
     } catch (error) {
       console.error("Logout error:", error);
       setLoading(false);

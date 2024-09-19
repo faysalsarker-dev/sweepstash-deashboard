@@ -6,6 +6,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import useAuth from './../hook/useAuth';
 import {  } from "./../css/style.css";
+import Swal from 'sweetalert2';
 const Root = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const {user, logout}=useAuth()
@@ -43,8 +44,27 @@ const Root = () => {
         },
     }));
 
+    const handleLogout = () => {
+      Swal.fire({
+          title: 'Are you sure?',
+          text: 'You will be logged out of the application!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, logout!',
+          cancelButtonText: 'Cancel'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              logout(); 
+              Swal.fire('Logged Out!', 'You have successfully logged out.', 'success');
+          }
+      });
+  };
+  
+
     const list = (
-        <List className="space-y-4 px-4">
+        <List className="space-y-4 px-4 ">
           <>
             {/* Avatar Section */}
             <div className="flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 backdrop-blur-xl rounded-lg p-6 shadow-xl border border-white/20">
@@ -223,7 +243,7 @@ const Root = () => {
               Post Management
             </NavLink>
             <div
-             onClick={logout}
+             onClick={handleLogout}
           className='text-white bg-red-500 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
             >
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">

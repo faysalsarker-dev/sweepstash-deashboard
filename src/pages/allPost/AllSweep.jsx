@@ -156,7 +156,7 @@ export default function AllSweep() {
     <>
       {/* Search and Sort Controls */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', alignItems: 'center' }}>
-        <SearchBox>
+        <SearchBox variant="standard">
           <form onSubmit={handleSearchChange} style={{ display: 'flex', flexGrow: 1 }}>
             <CustomInput
               placeholder="Search Posts"
