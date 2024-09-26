@@ -9,7 +9,7 @@ import useAxios from "../../hook/useAxios";
 const Home = () => {
     const axiosSecure = useAxios();
     
-    const { data, isLoading, isError, refetch } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['overview'],
         queryFn: async () => {
             const response = await axiosSecure.get('/dashboard/overview');

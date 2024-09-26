@@ -1,37 +1,77 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
-import useAxios from './../hook/useAxios';
+
+import useAxios from "./../hook/useAxios";
 
 export const ContextData = createContext(null);
 
 const AuthContext = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-const axiosSecure = useAxios()
-  // Load user from local storage on initial load
+  const axiosSecure = useAxios();
+
+  const createUser = async (formData) => {
+    const { data: userResponse } = await axiosSecure.post(
+      "/user/register",
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    return userResponse;
+  };
+
+  const verifyOtp = async (email, otp) => {
+    const otpCode = otp.join("");
+    const info = { email, otp: otpCode };
+    const { data: otpConfirm } = await axiosSecure.post(
+      "user/verify-otp",
+      info
+    );
+    return otpConfirm;
+  };
+
+  const userVerify = async (email) => {
+    const { data: verify } = await axiosSecure.post("/user/verify", {
+      email: email,
+    });
+    return verify;
+  };
+
+
+  const login=async(email, password )=>{
+    const {data} = await axiosSecure.post('/user/login', { email, password });
+    return data
+  }
+
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      setUser(storedUser);
-    }
-    setLoading(false);
-  }, []);
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
 
-  // Login function
+        const { data } = await axiosSecure.get("/user/me");
 
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchUser();
+  }, [axiosSecure]);
 
   // Logout function
   const logout = async () => {
     setLoading(true);
-    
+
     try {
-      await axiosSecure.post('user/logout');
+      await axiosSecure.post("user/logout");
       setUser(null);
-      localStorage.removeItem('user');
+      
       setLoading(false);
-      window.location.reload
+     
     } catch (error) {
       console.error("Logout error:", error);
       setLoading(false);
@@ -41,15 +81,17 @@ const axiosSecure = useAxios()
   const contextData = {
     user,
     loading,
-   setUser,
-   setLoading,
+    setUser,
+    setLoading,
     logout,
+    createUser,
+    verifyOtp,
+    userVerify,
+    login
   };
 
   return (
-    <ContextData.Provider value={contextData}>
-      {children}
-    </ContextData.Provider>
+    <ContextData.Provider value={contextData}>{children}</ContextData.Provider>
   );
 };
 

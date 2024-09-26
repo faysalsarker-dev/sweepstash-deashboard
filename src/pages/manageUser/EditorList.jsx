@@ -11,6 +11,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import SearchIcon from '@mui/icons-material/Search';
 import Swal from 'sweetalert2';
 import useAxios from './../../hook/useAxios';
+import BasicBreadcrumbs from '../../component/Breadcrumbs';
 
 const SearchBox = styled(Box)({
   display: 'flex',
@@ -107,10 +108,14 @@ export default function EditorList() {
   }
 
   const { data: rows, totalPages } = data || {};
-
+  const breadcrumbLinks = [
+    { label: 'Deashbord', href: '/' },
+    { label: 'Core', href: '/material-ui/getting-started/installation/' },
+    
+  ];
   return (
     <>
-      {/* Filters and Search */}
+      <BasicBreadcrumbs links={breadcrumbLinks}/>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', alignItems: 'center' }}>
   <SearchBox variant="standard">
     <form onSubmit={handleSearchChange} style={{ display: 'flex', flexGrow: 1 }}>
@@ -180,7 +185,7 @@ export default function EditorList() {
               rows.map((row) => (
                 <TableRow key={row._id}>
                   <TableCell component="th" scope="row">
-                    <Avatar alt={row.name} src={row.profile || "/static/images/avatar/1.jpg"} />
+                    <Avatar alt={row.name} src={row.profile && `http://localhost:5000/images/${row?.profile}` || "/static/images/avatar/1.jpg"} />
                   </TableCell>
                   <TableCell align="left">
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

@@ -63,6 +63,69 @@ const Root = () => {
   };
   
 
+  const listData = [
+    {
+      path: '/',
+      label: 'OVERVIEW',
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 mr-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+          />
+        </svg>
+      ),
+    },
+    {
+      path: '/posts',
+      label: 'POSTS',
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+          />
+        </svg>
+      ),
+    },
+    {
+      path: '/editor-manage',
+      label: 'EDITORS',
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6 mr-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+          />
+        </svg>
+      ),
+    },
+  ];
+
     const list = (
         <List className="space-y-4 px-4 ">
           <>
@@ -120,128 +183,29 @@ const Root = () => {
           <hr className="border-black my-6" />
       
           {/* Navigation Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 px-2">
             {/* Overview */}
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold rounded-lg p-4 transition duration-300 flex items-center shadow-xl'
-                  : 'text-gray-700 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                />
-              </svg>
-              Overview
-            </NavLink>
-      
-            {/* All Posts */}
-            <NavLink
-              to="/posts"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-gradient-to-r from-yellow-400 to-red-500 text-white font-bold rounded-lg p-4 transition duration-300 flex items-center shadow-xl'
-                  : 'text-gray-700 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-              All Posts
-            </NavLink>
-      
-            {/* Editor Management */}
-            <NavLink
-              to="/editor-manage"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-lg p-4 transition duration-300 flex items-center shadow-xl'
-                  : 'text-gray-700 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.25h13.5v13.5H5.25z" />
-              </svg>
-              Editor Management
-            </NavLink>
-      
-            {/* User Management */}
-            <NavLink
-              to="/user-manage"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-gradient-to-r from-teal-400 to-blue-500 text-white font-bold rounded-lg p-4 transition duration-300 flex items-center shadow-xl'
-                  : 'text-gray-700 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM5.121 17.121a8.004 8.004 0 0 1 13.758 0M21 21H3"
-                />
-              </svg>
-              User Management
-            </NavLink>
-      
-            {/* Post Management */}
-            <NavLink
-              to="/post-manage"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold rounded-lg p-4 transition duration-300 flex items-center shadow-xl'
-                  : 'text-gray-700 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 mr-2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12h6m-3 3v-6m12-3v15c0 1.5-1.5 3-3 3H6c-1.5 0-3-1.5-3-3V6c0-1.5 1.5-3 3-3h15c1.5 0 3 1.5 3 3z"
-                />
-              </svg>
-              Post Management
-            </NavLink>
+            {listData.map((item) => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          className={({ isActive }) =>
+            isActive
+              ? `text-primary font-bold rounded-lg  transition duration-300 flex items-center gap-2 shadow-xl  bg-white`
+              : `text-gray-700 hover:bg-secondary hover:text-white rounded-lg p-4 transition duration-300 flex items-center gap-2`
+          }
+        >
+          <NavLink  to={item.path}
+          className={({ isActive }) =>
+            isActive
+              ? `bg-primary p-4 rounded-lg text-white shadow-primary shadow-lg`
+              : ``
+          } >{item.icon}</NavLink>
+          {item.label}
+        </NavLink>
+      ))}
+
+  
             <div
              onClick={handleLogout}
           className='text-white bg-red-500 hover:bg-gradient-to-r from-gray-300 to-gray-500 hover:text-white rounded-lg p-4 transition duration-300 flex items-center'
@@ -262,7 +226,7 @@ const Root = () => {
       
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen ">
             {/* Top AppBar with logo and menu button - only visible on mobile and tablet */}
             <div className="lg:hidden shadow-md z-40">
                 <AppBar
@@ -311,24 +275,32 @@ const Root = () => {
             <Box sx={{ flexGrow: 1, width: '100%', height: '100vh', marginTop: { xs: 8, lg: 0 } }}>
                 <Grid container className="h-full">
                     {/* Sidebar for large devices */}
-                    <Grid
-                        item
-                        lg={3}
-                        className="border-r p-4 bg-white hidden lg:block"
-                    >
-                        <nav>
-                            {list}
-                        </nav>
-                    </Grid>
-
+           
+   <Box
+          sx={{
+           
+            width: 300,
+            display: { xs: 'none', lg: 'block' },
+           
+            height: '100vh',
+           
+            top: 0,
+            left: 0,
+            overflowY: 'auto',
+          }}
+        >
+          <Box sx={{ padding: 1 }}>
+            <nav >{list}</nav>
+          </Box>
+        </Box>
                     {/* Main content area */}
                     <Grid
                         item
                         xs={12}
                         lg={9}
-                        className="p-4"
+                        
                     >
-                        <div className="bg-white h-full shadow-md p-6 rounded-md">
+                        <div className="bg-white h-full shadow-md p-2 rounded-md">
                            
                             <Outlet />
                         </div>

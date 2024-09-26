@@ -1,43 +1,54 @@
-import { useEffect, useState } from 'react'; 
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
-  TextField, Button, IconButton, InputAdornment, Box, Typography, Container
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+  TextField,
+  Button,
+  IconButton,
+  InputAdornment,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-import useAuth from '../../hook/useAuth';
-import useAxios from './../../hook/useAxios';
-
+import useAuth from "../../hook/useAuth";
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const { user, loading, setLoading, setUser } = useAuth();
+  const { user, loading, setLoading, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const axiosSecure = useAxios();
 
   const onSubmit = async (data) => {
     const { email, password } = data;
     setLoading(true);
-    
+
     try {
-      const response = await axiosSecure.post('/user/login', { email, password });
-      const { user } = response.data;
+      await login(email, password);
 
-      if (user) {
-        setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
-        toast.success('Login successful!');
-        reset(); // reset form after successful login
-        navigate(location.state ? location.state : '/');
-      }
+      toast.success("Login successful!");
 
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error('Invalid email or password');
+      reset();
+
+      navigate(location.state?.from || "/");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (err) {
+      toast.error(
+        err.response && err.response.data && err.response.data.message
+          ? err.response.data.message
+          : "Invalid email or password"
+      );
     } finally {
       setLoading(false);
     }
@@ -45,7 +56,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate(location.state ? location.state : '/');
+      navigate(location.state ? location.state : "/");
     }
   }, [navigate, user, location.state]);
 
@@ -58,30 +69,30 @@ const Login = () => {
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: '1rem' }}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: "1rem" }}>
           {/* Email */}
           <TextField
             fullWidth
             margin="normal"
             label="Email"
             variant="outlined"
-            {...register('email', {
-              required: 'Email is required',
+            {...register("email", {
+              required: "Email is required",
               pattern: {
                 value: /^\S+@\S+$/i,
-                message: 'Invalid email format',
+                message: "Invalid email format",
               },
             })}
             error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
+            helperText={errors.email ? errors.email.message : ""}
           />
 
           {/* Password */}
@@ -90,10 +101,10 @@ const Login = () => {
             margin="normal"
             label="Password"
             variant="outlined"
-            type={showPassword ? 'text' : 'password'}
-            {...register('password', { required: 'Password is required' })}
+            type={showPassword ? "text" : "password"}
+            {...register("password", { required: "Password is required" })}
             error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ''}
+            helperText={errors.password ? errors.password.message : ""}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -114,7 +125,7 @@ const Login = () => {
             disabled={loading} // disable button during loading
             sx={{ mt: 3, mb: 2 }}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? "Logging in..." : "Login"}
           </Button>
         </form>
       </Box>
